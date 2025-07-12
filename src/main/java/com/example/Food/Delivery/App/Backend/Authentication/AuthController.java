@@ -2,6 +2,7 @@ package com.example.Food.Delivery.App.Backend.Authentication;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ public class AuthController {
     private MyUserRepository repository;
     @Autowired
     private JwtService jwtService;
+    @PostMapping("/register")
     public String register(@RequestHeader String email,
                            @RequestHeader String username,
                            @RequestHeader String password,
@@ -34,5 +36,19 @@ public class AuthController {
         repository.save(myUser);
         response.setStatus(200);
         return jwtService.generateToken(myUser);
+    }
+    @PostMapping("/login")
+    public String login(@RequestHeader String username,
+                        @RequestHeader String password,
+                        HttpServletResponse response){
+        Optional<MyUser> user=repository.findByUsername(username);
+        if(user.isPresent() && user.get().getPassword().equals(password)){
+            response.setStatus(200);
+            return jwtService.generateToken(user.get());
+        }
+        else{
+            response.setStatus(400);
+            return "Invalid username or password";
+        }
     }
 }
