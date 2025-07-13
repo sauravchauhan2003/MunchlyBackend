@@ -74,4 +74,13 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+    public boolean isTokenValid(String token) {
+        try {
+            Claims claims = extractAllClaims(token); // Will throw if signature is invalid or token is malformed
+            return !claims.getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            return false; // Invalid token (signature, format, expired, etc.)
+        }
+    }
+
 }
