@@ -24,7 +24,7 @@ public class AuthController {
             return "Missing one or more parameters";
         }
         Optional<MyUser> user1=repository.findByUsername(username);
-        Optional<MyUser> user2=repository.findBYEmail(email);
+        Optional<MyUser> user2=repository.findByEmail(email);
         if(user1.isPresent()||user2.isPresent()){
             response.setStatus(400);
             return "Username or email already in use";
