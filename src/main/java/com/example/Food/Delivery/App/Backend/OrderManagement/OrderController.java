@@ -2,6 +2,7 @@ package com.example.Food.Delivery.App.Backend.OrderManagement;
 
 import com.example.Food.Delivery.App.Backend.Authentication.JwtService;
 import com.example.Food.Delivery.App.Backend.Authentication.MyUserRepository;
+import com.example.Food.Delivery.App.Backend.Notification.NotificationService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,8 @@ import java.util.Map;
 public class OrderController {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-
+    @Autowired
+    private NotificationService notificationService;
     @Autowired
     private JwtService jwtService;
 
@@ -106,7 +108,7 @@ public class OrderController {
             if (updatedOrder == null) {
                 return ResponseEntity.status(404).body("Order not found");
             }
-
+            notificationService.sendNotification(updatedOrder,username);
             return ResponseEntity.ok(updatedOrder);
 
         } catch (IllegalArgumentException e) {
