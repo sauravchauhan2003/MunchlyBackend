@@ -1,12 +1,15 @@
-# Ignore everything in target folder
+HELP.md
+
+# Ignore entire target directory
 target/
-# But allow the main jar file in target
+
+# But do NOT ignore JAR files inside target
 !target/*.jar
 
-# Maven wrapper JAR (optional: only if you don't want to ignore it)
+# Maven Wrapper
 !.mvn/wrapper/maven-wrapper.jar
 
-# Generated folders you still want to ignore
+# Allow target folders inside source trees
 !**/src/main/**/target/
 !**/src/test/**/target/
 
