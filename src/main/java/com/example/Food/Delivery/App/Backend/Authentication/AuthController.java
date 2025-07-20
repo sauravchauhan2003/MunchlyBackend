@@ -2,6 +2,7 @@ package com.example.Food.Delivery.App.Backend.Authentication;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,7 +52,7 @@ public class AuthController {
             return "Invalid username or password";
         }
     }
-    @PostMapping("/health")
+    @GetMapping("/health")
     public String health(){
         return "ok";
     }
