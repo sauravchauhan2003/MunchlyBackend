@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "customer_orders") // Added @Table annotation to avoid SQL reserved keyword 'order'
 public class Order {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -13,7 +14,7 @@ public class Order {
     private List<OrderItem> items;
     private String username;
     private Address address;
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus; // Correct field name
     private PaymentMethod paymentMethod;
     private boolean paid;
 

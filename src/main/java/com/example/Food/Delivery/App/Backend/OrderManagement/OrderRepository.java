@@ -12,15 +12,15 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByUsername(String username);
-    List<Order> findByStatus(OrderStatus status);
+    List<Order> findByOrderStatus(OrderStatus orderStatus); // Changed from findByStatus to findByOrderStatus
 
     @Transactional
     @Modifying
-    @Query("UPDATE Order o SET o.status = :status WHERE o.id = :orderId")
-    int updateOrderStatusById(Long orderId, OrderStatus status);
+    @Query("UPDATE Order o SET o.orderStatus = :orderStatus WHERE o.id = :orderId") // Changed o.status to o.orderStatus and :status to :orderStatus
+    int updateOrderStatusById(Long orderId, OrderStatus orderStatus); // Changed parameter name to match query
 
     @Transactional
     @Modifying
-    @Query("UPDATE Order o SET o.status = :status WHERE o.username = :username")
-    int updateOrderStatusByUsername(String username, OrderStatus status);
+    @Query("UPDATE Order o SET o.orderStatus = :orderStatus WHERE o.username = :username") // Changed o.status to o.orderStatus and :status to :orderStatus
+    int updateOrderStatusByUsername(String username, OrderStatus orderStatus); // Changed parameter name to match query
 }

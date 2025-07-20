@@ -44,7 +44,7 @@ public class OrderService {
         return orderRepository.findById(orderId).orElse(null);
     }
     public List<Order> getOrdersByStatus(OrderStatus status) {
-        return orderRepository.findByStatus(status);
+        return orderRepository.findByOrderStatus(status);
     }
 
 }

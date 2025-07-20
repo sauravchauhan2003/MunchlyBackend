@@ -51,4 +51,8 @@ public class AuthController {
             return "Invalid username or password";
         }
     }
+    @PostMapping("/health")
+    public String health(){
+        return "ok";
+    }
 }
