@@ -87,6 +87,7 @@ public class MenuController {
         }
         else{
             MenuItem menuItem=new MenuItem();
+            menuItem.setName(name);
             menuItem.setDescription(description);
             if(foodType.equals("VEG")){
                 menuItem.setFoodType(FoodType.VEG);
