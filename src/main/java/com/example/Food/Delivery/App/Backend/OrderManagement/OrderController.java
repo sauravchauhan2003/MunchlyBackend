@@ -75,40 +75,26 @@ public class OrderController {
     }
     @PatchMapping("/update-order-status")
     public ResponseEntity<?> updateOrderStatus(
-            @RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestBody Map<String, Object> payload
     ) {
-        // 1. Validate token
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
-            return ResponseEntity.status(400).body("Missing or invalid Authorization header");
-        }
-
-        String token = authorization.substring(7);
-        if (!jwtService.isTokenValid(token)) {
-            return ResponseEntity.status(401).body("Invalid or expired token");
-        }
-
-        // 2. Validate user
-        String username = jwtService.extractUsername(token);
-        if (myUserRepository.findByUsername(username).isEmpty()) {
-            return ResponseEntity.status(404).body("User not found");
-        }
-
-        // 3. Validate payload
+        // 1. Validate payload
         if (!payload.containsKey("orderId") || !payload.containsKey("status")) {
             return ResponseEntity.status(400).body("Missing orderId or status in request body");
         }
 
         try {
-            Long orderId = objectMapper.convertValue(payload.get("orderId"), Long.class);
-            String statusStr = objectMapper.convertValue(payload.get("status"), String.class).toUpperCase();
+            Long orderId = Long.parseLong(payload.get("orderId").toString());
+            String statusStr = payload.get("status").toString().toUpperCase();
             OrderStatus newStatus = OrderStatus.valueOf(statusStr);
 
             Order updatedOrder = orderService.updateStatus(orderId, newStatus);
             if (updatedOrder == null) {
                 return ResponseEntity.status(404).body("Order not found");
             }
-            notificationService.sendNotification(updatedOrder,username);
+
+            // Optional: notify admin/user (username unknown now)
+            // notificationService.sendNotification(updatedOrder, "system");
+
             return ResponseEntity.ok(updatedOrder);
 
         } catch (IllegalArgumentException e) {
@@ -117,6 +103,7 @@ public class OrderController {
             return ResponseEntity.status(500).body("Internal server error: " + e.getMessage());
         }
     }
+
     @GetMapping("/my-orders")
     public ResponseEntity<?> getMyOrders(@RequestHeader(value = "Authorization", required = false) String authorization) {
         // 1. Check for Authorization header
