@@ -91,9 +91,9 @@ public class OrderController {
             if (updatedOrder == null) {
                 return ResponseEntity.status(404).body("Order not found");
             }
-
+            String username= updatedOrder.getUsername();
             // Optional: notify admin/user (username unknown now)
-            // notificationService.sendNotification(updatedOrder, "system");
+            notificationService.sendNotification(updatedOrder, username);
 
             return ResponseEntity.ok(updatedOrder);
 
