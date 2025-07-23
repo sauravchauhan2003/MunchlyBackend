@@ -1,61 +1,40 @@
 package com.example.Food.Delivery.App.Backend.OrderManagement;
 
+
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-@Table(name = "customer_orders") // Added @Table annotation to avoid SQL reserved keyword 'order'
+@Table(name = "customer_orders") // Avoid reserved keyword 'order'
 public class Order {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @ElementCollection
     private List<OrderItem> items;
+
     private String username;
+
+    @Embedded
     private Address address;
-    private OrderStatus orderStatus; // Correct field name
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
+
     private boolean paid;
 
-    public Address getAddress() {
-        return address;
+    // Getters and Setters
+    public int getId() {
+        return id;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public boolean isPaid() {
-        return paid;
-    }
-
-    public void setPaid(boolean paid) {
-        this.paid = paid;
-    }
-
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public List<OrderItem> getItems() {
@@ -66,11 +45,43 @@ public class Order {
         this.items = items;
     }
 
-    public int getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
     }
 }
